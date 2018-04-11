@@ -1,5 +1,5 @@
 var sendError = require('../../util/send-error');
-var status = require('../../util/status');
+// var status = require('../../util/status');
 
 // Create a new todo
 module.exports = function (options) {
@@ -17,12 +17,12 @@ module.exports = function (options) {
 		}
 
 		// Verify that status exists
-		if (!status.valid(req.params.status)) {
-			return sendError(res, 400, 'Invalid status: ' + req.body.status);
-		}
+		// if (!status.valid(req.params.status)) {
+		// 	return sendError(res, 400, 'Invalid status: ' + req.body.status);
+		// }
 
 		// Set values
-		todo.status = req.body.status || todo.status;
+		todo.completed = req.body.completed || todo.completed;
 
 		// Save data to store
 		store.todos.splice(store.todos.indexOf(todo), 1, todo);

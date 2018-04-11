@@ -2,7 +2,7 @@ var express = require('express');
 var defined = require('defined');
 var bodyParser = require('body-parser');
 var todoRoutes = require('./handlers/todos');
-var userRoutes = require('./handlers/users');
+// var userRoutes = require('./handlers/users');
 var store = require('./util/store');
 
 module.exports = function (opts) {
@@ -18,11 +18,15 @@ module.exports = function (opts) {
 		app.use(bodyParser.json());
 	}
 
+    app.get(opts.prefix, function (req, res) {
+        res.status(200).send();
+    });
+
 	// Hook in todo routes
 	app.use(opts.prefix + '/todos', todoRoutes(opts));
 
 	// Hook in user routes
-	app.use(opts.prefix + '/users', userRoutes(opts));
+	// app.use(opts.prefix + '/users', userRoutes(opts));
 
 	return app;
 };

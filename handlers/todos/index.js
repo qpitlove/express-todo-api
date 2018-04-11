@@ -14,10 +14,10 @@ module.exports = function (opts) {
 	app.put('/:id', require('./edit')(opts));
 
 	// Chagne todo status
-	app.put('/:id/status/:status', require('./status')(opts));
+	// app.put('/:id/status/:status', require('./status')(opts));
 
 	// Chagne todo assigned user
-	app.put('/:id/assign/:userId', require('./assign')(opts));
+	// app.put('/:id/assign/:userId', require('./assign')(opts));
 
 	// Delete todo completely
 	app.delete('/:id', require('./delete')(opts));

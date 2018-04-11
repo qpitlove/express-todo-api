@@ -1,5 +1,5 @@
 var sendError = require('../../util/send-error');
-var status = require('../../util/status');
+// var status = require('../../util/status');
 
 // Create a new todo
 module.exports = function (options) {
@@ -17,28 +17,28 @@ module.exports = function (options) {
 		}
 
 		// Verify that status exists
-		if (req.body.status && !status.valid(req.body.status)) {
-			return sendError(res, 400, 'Invalid status: ' + req.body.status);
-		}
+		// if (req.body.status && !status.valid(req.body.status)) {
+		// 	return sendError(res, 400, 'Invalid status: ' + req.body.status);
+		// }
 
 		// Change assigned to user?
-		if (req.body.assignedTo) {
-			var exists = store.users.filter(function (u) {
-				return u.id === req.body.assignedTo;
-			}).length > 0;
-
-			// Error if user doesnt exist
-			if (!exists) {
-				return sendError(res, 400, 'Assigned user does not exist');
-			}
-
-			// Add user to todo
-			todo.assignedTo = req.body.assignedTo;
-		}
+		// if (req.body.assignedTo) {
+		// 	var exists = store.users.filter(function (u) {
+		// 		return u.id === req.body.assignedTo;
+		// 	}).length > 0;
+        //
+		// 	// Error if user doesnt exist
+		// 	if (!exists) {
+		// 		return sendError(res, 400, 'Assigned user does not exist');
+		// 	}
+        //
+		// 	// Add user to todo
+		// 	todo.assignedTo = req.body.assignedTo;
+		// }
 
 		// Set values
-		todo.text = req.body.text || todo.text;
-		todo.status = req.body.status || todo.status;
+		todo.title = req.body.title || todo.title;
+		todo.completed = req.body.completed || todo.completed;
 
 		// Save data to store
 		store.todos.splice(store.todos.indexOf(todo), 1, todo);

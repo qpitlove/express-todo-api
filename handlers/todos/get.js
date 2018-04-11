@@ -1,5 +1,5 @@
-var nextLink = require('../../util/next-link');
-var prevLink = require('../../util/prev-link');
+// var nextLink = require('../../util/next-link');
+// var prevLink = require('../../util/prev-link');
 
 module.exports = function (options) {
 	// Shorter reference to data store
@@ -17,19 +17,20 @@ module.exports = function (options) {
 		};
 
 		// Filter on status and assigned to
-		responseData.todos = store.todos.filter(function (todo) {
+		// responseData.todos = store.todos.filter(function (todo) {
+		responseData = store.todos.filter(function (todo) {
 			// Filter by status
-			if (status !== 'all' && todo.status !== status) {
+			if (status !== 'all' && todo.completed !== status) {
 				return false;
 			}
 
 			// Filter by assgnee
-			if (req.query.assignedTo && todo.assignedTo !== req.query.assignedTo) {
-				return false;
-			}
+			// if (req.query.assignedTo && todo.assignedTo !== req.query.assignedTo) {
+			// 	return false;
+			// }
 
 			// Filter by search text
-			if (req.query.query && todo.text.toLowerCase().indexOf(req.query.query.toLowerCase()) === -1) {
+			if (req.query.query && todo.title.toLowerCase().indexOf(req.query.query.toLowerCase()) === -1) {
 				return false;
 			}
 
@@ -37,57 +38,57 @@ module.exports = function (options) {
 		});
 
 		// Add total
-		responseData.total = responseData.todos.length;
-
-		// Only show as many todos as the limit
-		responseData.todos = responseData.todos.slice(offset, offset + limit);
+		// responseData.total = responseData.todos.length;
+        //
+		// // Only show as many todos as the limit
+		// responseData.todos = responseData.todos.slice(offset, offset + limit);
 
 		// With user?
-		if (req.query.withUser) {
-			responseData.todos = responseData.todos.map(function (todo) {
-				if (!todo.assignedTo) {
-					return todo;
-				}
-
-				var user = store.users.filter(function (u) {
-					return u.id === todo.assignedTo;
-				})[0];
-
-				// No user
-				if (!user) {
-					delete todo.assignedTo;
-					return todo;
-				}
-
-				// Clone items so we dont modify the store
-				var o = {};
-				for (var i in todo) {
-					o[i] = todo[i];
-				}
-
-				// Assign user
-				o.assignedTo = user;
-				return o;
-			});
-		}
+		// if (req.query.withUser) {
+		// 	responseData.todos = responseData.todos.map(function (todo) {
+		// 		if (!todo.assignedTo) {
+		// 			return todo;
+		// 		}
+        //
+		// 		var user = store.users.filter(function (u) {
+		// 			return u.id === todo.assignedTo;
+		// 		})[0];
+        //
+		// 		// No user
+		// 		if (!user) {
+		// 			delete todo.assignedTo;
+		// 			return todo;
+		// 		}
+        //
+		// 		// Clone items so we dont modify the store
+		// 		var o = {};
+		// 		for (var i in todo) {
+		// 			o[i] = todo[i];
+		// 		}
+        //
+		// 		// Assign user
+		// 		o.assignedTo = user;
+		// 		return o;
+		// 	});
+		// }
 
 		// Next link
-		var next = nextLink(options.prefix + '/todos', responseData.total, limit, offset, {
-			status: status,
-			assignedTo: req.query.assignedTo
-		});
-		if (next) {
-			responseData._links.next = next;
-		}
-
-		// Previous link
-		var prev = prevLink(options.prefix + '/todos', responseData.total, limit, offset, {
-			status: status,
-			assignedTo: req.query.assignedTo
-		});
-		if (prev) {
-			responseData._links.prev = prev;
-		}
+		// var next = nextLink(options.prefix + '/todos', responseData.total, limit, offset, {
+		// 	status: status,
+		// 	assignedTo: req.query.assignedTo
+		// });
+		// if (next) {
+		// 	responseData._links.next = next;
+		// }
+        //
+		// // Previous link
+		// var prev = prevLink(options.prefix + '/todos', responseData.total, limit, offset, {
+		// 	status: status,
+		// 	assignedTo: req.query.assignedTo
+		// });
+		// if (prev) {
+		// 	responseData._links.prev = prev;
+		// }
 
 		res.status(200).json(responseData);
 	};

@@ -24,7 +24,7 @@ module.exports = function (options) {
 		}
 
 		// Set values
-		todo.assignedTo = user.id;
+		// todo.assignedTo = user.id;
 
 		// Save data to store
 		store.users.splice(store.users.indexOf(user), 1, user);
