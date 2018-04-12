@@ -39,6 +39,7 @@ module.exports = function (options) {
 		// Set values
 		todo.title = req.body.title || todo.title;
 		todo.completed = req.body.completed || todo.completed;
+		todo.updated = Date.now();
 
 		// Save data to store
 		store.todos.splice(store.todos.indexOf(todo), 1, todo);
