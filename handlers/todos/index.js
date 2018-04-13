@@ -21,6 +21,7 @@ module.exports = function (opts) {
 
 	// Delete todo completely
 	app.delete('/:id', require('./delete')(opts));
+	app.delete('/', require('./delete')(opts));
 
 	return app;
 };
